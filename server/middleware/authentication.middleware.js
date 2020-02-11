@@ -8,9 +8,10 @@ const checkToken = (req, res, next)=>{
         });
     }
 
-    let token = req.header('Authorization').replace('Bearer ');
-    
+    let token = req.header('Authorization').replace('Bearer ','');
+    console.log('TOKEN: ',token);
     jwt.verify( token, process.env.TOKEN_SEED, (err, decoded)=>{
+        
         if(err){
             return res.status(401).json({
                 ok:false,
@@ -18,7 +19,9 @@ const checkToken = (req, res, next)=>{
             });
         
         }
-        //req.user = decoded.user;
+
+        console.log('USER:', decoded);
+        req.user = decoded.user;
     });
     next();
 };

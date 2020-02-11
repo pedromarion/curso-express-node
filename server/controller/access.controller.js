@@ -37,6 +37,7 @@ app.post('/access/', (req, res)=>{
             return res.status(200).json({
                 ok:true,
                 message:'Usuario correcto',
+                user:user_db,
                 token: token
             });
         }

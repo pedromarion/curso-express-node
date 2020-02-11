@@ -59,7 +59,7 @@ app.get('/users/:id', (req, res)=>{
 });
 
 //crear elemento
-app.post('/users/', checkToken, (req, res)=>{
+app.post('/users/', (req, res)=>{
     let user = new User({
         name:req.body.name,
         email:req.body.email,
@@ -89,7 +89,7 @@ app.post('/users/', checkToken, (req, res)=>{
 });
 
 //actualizar elemento
-app.put('/users/:id', (req, res)=>{
+app.put('/users/:id', checkToken, (req, res)=>{
     req.body.updated_at = (new Date()).getTime();
     req.body.password = bcrypt.hashSync(req.body.password, Number(process.env.SALT_ROUNDS));
     delete req.body.created_at;
@@ -113,7 +113,7 @@ app.put('/users/:id', (req, res)=>{
 });
 
 //borrar elemento
-app.delete('/users/:id', (req, res)=>{
+app.delete('/users/:id', checkToken, (req, res)=>{
     User.findOneAndDelete(req.params.id, (err)=>{
         if(err){
             return res.status(400).json({
